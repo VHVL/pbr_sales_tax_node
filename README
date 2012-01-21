@@ -1,0 +1,6 @@
+This app is a Node.js server, used with the ESC Service Program, in order to do
+sales tax on an acrual basis.  Work in progress.
+
+Dependancies (installed via npm):
+Express
+Jade

@@ -1,0 +1,18 @@
+!!! 5
+html
+  head
+    link(rel='stylesheet', type='text/css', href='/style.css')
+    title PBR Sales Sax
+  body
+    #container
+      #header
+        include partials/header
+      #menu
+        include partials/menu
+      #main
+        #sidebar
+          include partials/sidebar
+        #text!= body
+      #footer
+        include partials/footer
+    script(src='/jquery-1.7.1.min.js')
