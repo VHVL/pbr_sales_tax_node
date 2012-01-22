@@ -1,13 +1,19 @@
 var formidable = require('formidable');
 var util = require('util');
+var fs = require('fs');
+var xml2js = require('xml2js');
 
 // Accpets the request object, and parses out the XML objects
 module.exports = function (req, res) {
-  var form = new formidable.IncomingForm();
-  form.encoding = 'utf-8';
-  form.on('file', function(field, file){
-    console.log(field, file);
-  });
-  form.parse(req);
+  var parser = new xml2js.Parser();
+  console.log(req.files.xmlfile);
+  fs.readFile(req.files.xmlfile.path, function (err, data) {
+    if (err) { throw err; }
+      parser.parseString(data, function (err, result) {
+        fs.unlink(req.files.xmlfile.path);
+        res.end(util.inspect(result, false, null));
+
+      });
+    });
   return;
 };
