@@ -9,7 +9,7 @@ var util = require('util');
 
 app.configure(function () {
   app.use(express.methodOverride());
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({uploadDir:__dirname + '/tmp'}));
   app.use(app.router);
 });
 

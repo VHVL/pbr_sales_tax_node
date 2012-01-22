@@ -1,4 +1,3 @@
-var formidable = require('formidable');
 var util = require('util');
 var fs = require('fs');
 var xml2js = require('xml2js');
