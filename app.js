@@ -38,6 +38,10 @@ app.get('/upload', function (req, res) {
   res.render('upload');
 });
 
+app.post('/upload/post', function (req, res) {
+  require('./xmlparser.js')(req, res);
+});
+
 app.get('/query', function (req, res) {
   res.render('query');
 });
@@ -51,7 +55,7 @@ app.get('/users', function (req, res) {
 });
 
 app.get('/:page/help', function (req, res) {
-  res.render('help/' + req.params.page);
+  res.render(req.params.page + '/help');
 });
 
 app.listen(process.env.PORT);
