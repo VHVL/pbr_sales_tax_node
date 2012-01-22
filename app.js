@@ -3,12 +3,13 @@ if (!process.env.NODE_ENV) {
     process.env.NODE_ENV='development';
 }
 
-var express=require('express');
-var app=express.createServer()
+var express = require('express');
+var app = express.createServer();
+var util = require('util');
 
 app.configure(function () {
-  app.use(express.methodOverride());
-  app.use(express.bodyParser());
+  //app.use(express.methodOverride());
+  //app.use(express.bodyParser());
   app.use(app.router);
 });
 
@@ -39,7 +40,7 @@ app.get('/upload', function (req, res) {
 });
 
 app.post('/upload/post', function (req, res) {
-  require('./xmlparser.js')(req, res);
+  require('./xmlparser')(req, res);
 });
 
 app.get('/query', function (req, res) {

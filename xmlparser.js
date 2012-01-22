@@ -5,9 +5,9 @@ var util = require('util');
 module.exports = function (req, res) {
   var form = new formidable.IncomingForm();
   form.encoding = 'utf-8';
-  form.parse(req, function (err, fields, files) {
-    if (err) { throw err; }
-    res.send(util.inspect({fields: fields, files: files}));
+  form.on('file', function(field, file){
+    console.log(field, file);
   });
+  form.parse(req);
   return;
-}
+};
