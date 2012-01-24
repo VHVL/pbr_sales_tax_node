@@ -6,6 +6,10 @@ if (!process.env.NODE_ENV) {
 var express = require('express');
 var app = express.createServer();
 var util = require('util');
+var nowjs = require('now');
+var everyone = nowjs.initialize(app);
+
+everyone.now.parseFile = require('./xmlparser.js');
 
 app.configure(function () {
   app.use(express.methodOverride());
@@ -35,12 +39,17 @@ app.get('/enter', function (req, res) {
   res.render('enter');
 });
 
+app.post('/enter/post', function (req, res) {
+  res.end('stub')
+});
+
 app.get('/upload', function (req, res) {
   res.render('upload');
 });
 
 app.post('/upload/post', function (req, res) {
-  require('./xmlparser')(req, res);
+  res.render('upload/post', { xmlfile: req.files.xmlfile.path });
+  //require('./xmlparser')(req, res, app);
 });
 
 app.get('/query', function (req, res) {
