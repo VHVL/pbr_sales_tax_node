@@ -1,8 +1,10 @@
-// script(src='/socket.io/socket.io.js')
-script(src='/nowjs/now.js')
-script(src='/upload.js')
+- var action;
 #status
   p File uploaded.
 #invoices
-form#theForm
- input(type='hidden', value='#{xmlfile}')#xmlfile
+  each invoice, number in invoices.error
+    - action = invoice.created ? 'creating' : 'updating'
+    div There was an error #{action} invoice number #{number}.  Error: #{invoice.error}
+  each invoice, number in invoices.good
+    - action = invoice.created ? 'Created' : 'Updated'
+    div #{action} invoice number #{number}.

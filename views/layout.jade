@@ -13,6 +13,18 @@ html
       #main
         #sidebar
           include partials/sidebar
-        #text!= body
+        #text
+          if typeof flash !== 'undefined'
+            if typeof flash.error !== 'undefined'
+              #error
+                ul
+                  each error in flash.error
+                    li error
+            if typeof flash.error !== 'undefined'
+              #info
+                ul
+                  each info in flash.info
+                    li info
+          != body
       #footer
         include partials/footer

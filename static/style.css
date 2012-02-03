@@ -28,6 +28,11 @@ body {padding:50px 100px; margin:0; font-family:Tahoma, Geneva, sans-serif; back
 #text h2 {font-size:19px; font-weight:normal; margin:20px 0 10px 0;}
 #text ol, #text ul {padding:0; margin:8px 0;}
 #text li {margin-left:40px;}
+#error {background-color: #FFB6C1; border: 1px solid #FF0000; margin: 5px;}
+#info {background-color: #AFEEEE; border: 1px solid #20B2AA; margin: 5px;}
+input {margin-right: 10px; margin-left: 10px;}
+select {margin-right: 10px; margin-left: 10px;}
+
 
 #footer {height:40px; color:#FFFFFF; font-size:11px; background-image:url(images/footer_bg.png); clear:both;}
 #footer a {color:#FFFFFF;}

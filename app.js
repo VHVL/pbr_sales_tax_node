@@ -6,14 +6,12 @@ if (!process.env.NODE_ENV) {
 var express = require('express');
 var app = express.createServer();
 var util = require('util');
-var nowjs = require('now');
-var everyone = nowjs.initialize(app);
-
-everyone.now.parseFile = require('./xmlparser.js');
 
 app.configure(function () {
   app.use(express.methodOverride());
   app.use(express.bodyParser({uploadDir:__dirname + '/tmp'}));
+  app.use(express.cookieParser());
+  app.use(express.session({secret: 'pbr secret info'}));
   app.use(app.router);
 });
 
@@ -48,8 +46,7 @@ app.get('/upload', function (req, res) {
 });
 
 app.post('/upload/post', function (req, res) {
-  res.render('upload/post', { xmlfile: req.files.xmlfile.path });
-  //require('./xmlparser')(req, res, app);
+  require('./xmlparser')(req, res);
 });
 
 app.get('/query', function (req, res) {
@@ -62,6 +59,14 @@ app.get('/report', function (req, res) {
 
 app.get('/users', function (req, res) {
   res.render('users');
+});
+
+app.get('/test', function (req, res) {
+  req.flash('error', 'error 1');
+  req.flash('error', 'error 2');
+  req.flash('info', 'info 1');
+  req.flash('info', 'info 2');
+  res.render('index', {locals: {flash: req.flash()}});
 });
 
 app.get('/:page/help', function (req, res) {
