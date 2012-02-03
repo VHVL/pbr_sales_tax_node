@@ -1,18 +1,10 @@
 var util = require('util');
 var fs = require('fs');
 var xml2js = require('xml2js');
-var mongoose = require('mongoose');
 var async = require('async');
 
 // Create mongoose model
-var InvModel = mongoose.model('Invoice', new mongoose.Schema({
-    number: {type: Number, unique: true},
-    lastName: String,
-    firstName: String,
-    amount: Number,
-    tax: Number,
-    custno: Number
-  }));
+var InvModel = require('./database/invoices');
 
 // Stores an invoice in the database.  Either inserts or updates, depending
 // on which needs to be done.  Returns a function, to work with async, and provide
@@ -64,7 +56,7 @@ module.exports = function (req, res) {
   invoices.good = {};
   invoices.error = {};
   savefunc = saveinvoice(invoices);
-  mongoose.connect('mongodb://localhost/pbr');
+
   done = cleanup(req, res, invoices, file, mongoose.connection);
 
   fs.readFile(file, function (err, data) {

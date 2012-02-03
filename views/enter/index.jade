@@ -3,10 +3,13 @@ p From this page, you can enter each invoice that was paid in a month,
   |  review the information for that invoice, and then mark then all as
   |  paid in the system.
 form(action='post')
-  label Invoice Number:
-  input(type='text', name='invno')#invno
-  input(type='button', value='Add Invoice')#btn_addinvoice
-  input(type='button', value='Submit Report')#btn_submit
+  p
+    include ../partials/datecontrol
+  p
+    label Invoice Number:
+    input(type='text', name='invno')#invno
+    input(type='button', value='Add Invoice')#btn_addinvoice
+    input(type='button', value='Submit Report')#btn_submit
 #invoices
   #issues
   #good

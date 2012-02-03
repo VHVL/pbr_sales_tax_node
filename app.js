@@ -6,6 +6,8 @@ if (!process.env.NODE_ENV) {
 var express = require('express');
 var app = express.createServer();
 var util = require('util');
+var xmlparser = require('./xmlparser');
+var enterjs = require('./enter.js');
 
 app.configure(function () {
   app.use(express.methodOverride());
@@ -38,7 +40,10 @@ app.get('/enter', function (req, res) {
 });
 
 app.post('/enter/post', function (req, res) {
-  res.end('stub')
+  if (req.xhr) {
+    return enterjs.getdata(req,res);
+  }
+  res.end('main stub');
 });
 
 app.get('/upload', function (req, res) {
@@ -46,7 +51,7 @@ app.get('/upload', function (req, res) {
 });
 
 app.post('/upload/post', function (req, res) {
-  require('./xmlparser')(req, res);
+  xmlparser(req, res);
 });
 
 app.get('/query', function (req, res) {
