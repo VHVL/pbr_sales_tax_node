@@ -1,10 +1,13 @@
-- var action;
-#status
-  p File uploaded.
-#invoices
-  each invoice, number in invoices.error
-    - action = invoice.created ? 'creating' : 'updating'
-    div There was an error #{action} invoice number #{number}.  Error: #{invoice.error}
-  each invoice, number in invoices.good
-    - action = invoice.created ? 'Created' : 'Updated'
-    div #{action} invoice number #{number}.
+extends ../layout
+
+block content
+  - var action;
+  #status
+    p File uploaded.
+  #invoices
+    each invoice, number in invoices.error
+      - action = invoice.created ? 'creating' : 'updating'
+      div There was an error #{action} invoice number #{number}.  Error: #{invoice.error}
+    each invoice, number in invoices.good
+      - action = invoice.created ? 'Created' : 'Updated'
+      div #{action} invoice number #{number}.

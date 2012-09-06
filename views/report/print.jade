@@ -1,0 +1,25 @@
+extends ../print_layout
+include ../partials/invoice
+
+block content
+  - var datestr = (new Date(report.year, report.month - 1)).toGMTString().split(' ').slice(2,4).join(' ')
+  .info Report Date: #{datestr}
+    .number Report #: #{report.number}
+  .invoice-header
+    .number Invoice Number
+    .lastname Last Name
+    .firstname First Name
+    .amount Amount
+    .tax Sales Tax
+  - var totalamount = 0, totaltax = 0;
+  for invoice in report.invoices
+    - totalamount += invoice.amount;
+    - totaltax += invoice.tax;
+    mixin invoice(invoice, false, false)
+  .summary
+    .total Total
+    .amount #{totalamount.toFixed(2)}
+    .tax #{totaltax.toFixed(2)}
+
+
+

@@ -1,0 +1,31 @@
+extends layout
+include partials/datecontrol
+
+append scripts
+  script(src='/enter.js')
+
+block content
+  p.
+    From this page, you can enter each invoice that was paid in a month,
+    review the information for that invoice, and then mark then all as
+    paid in the system.
+  form(action='post')
+    p
+      mixin datecontrol('monthctl', 'yearctl')
+    p
+      label Invoice Number:
+      input(type='text', name='invno')#invno
+      input(type='button', value='Add Invoice')#btn_addinvoice
+      input(type='button', value='Submit Report')#btn_submit
+  #invoices
+    .invoice-header
+      .number Invoice Number
+      .lastname Last Name
+      .firstname First Name
+      .amount Invoice Total
+      .tax Sales Tax
+    #issues
+    #good
+
+
+  

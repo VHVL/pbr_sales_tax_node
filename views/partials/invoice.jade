@@ -1,0 +1,20 @@
+mixin invoice(invdata, removeButton, textFields)
+  .invoice
+    .number #{invdata.number}
+    if textFields
+      .lastname 
+        input(type='text', name='lastname')
+      .firstname
+        input(type='text', name='firstname')
+      .amount
+        input(type='text', name='amount')
+      .tax
+        input(type='text', name='tax')
+    else
+      .lastname #{invdata.lastName}
+      .firstname #{invdata.firstName}
+      .amount #{invdata.amount.toFixed(2)}
+      .tax #{invdata.tax.toFixed(2)}
+    if removeButton
+      .remove 
+        input(type='button', value='Remove', class='remove-button')

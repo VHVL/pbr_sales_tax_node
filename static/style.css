@@ -39,3 +39,52 @@ select {margin-right: 10px; margin-left: 10px;}
 #footer a:hover {color:#DFDFDF;}
 #footer_left {float:left; padding:13px 0 0 30px;}
 #footer_right {float:right; padding:13px 30px 0 0;}
+
+/* Above is for the site theme, below is site specific */
+
+.invoice > div, .invoice-header > div {
+  width:18%;
+  display: inline-block;
+}
+.invoice .remove {
+  width:10%;
+}
+.invoice-header {
+  font-weight: bold;
+  margin-top: 20px;
+}
+.invoice input {
+  margin-left: 0;
+  width: 80%;
+}
+.amount, .tax {
+  text-align: right;
+}
+.amount input, .tax input {
+  margin-left: 20%;
+  text-align: right;
+}
+.remove input {
+  margin-left: 15px;
+}
+.info { 
+  padding-top: 10px;
+}
+.info .number { 
+  float:right;
+}
+.summary { 
+  border-top: thin black solid; 
+  padding-top: 10px; 
+  margin-top:  10px;
+}
+.summary .total { 
+  text-align: right; 
+  font-weight: bold; 
+  width: 54%; 
+  display: inline-block;
+}
+.summary .amount, .summary .tax { 
+  width: 18%; 
+  display: inline-block;
+}

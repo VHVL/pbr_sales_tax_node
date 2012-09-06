@@ -1,0 +1,36 @@
+extends layout
+include partials/invoice
+include partails/datecontrol
+
+block content
+  if typeof report === 'undefined'
+    div
+      p
+        label Report Number:
+          input(type='text', name='report_number', id='report_number')
+        input(type='submit', value='Search by Number')
+      p
+        label Report Date: 
+          mixin datecontrol('monthctl', 'yearctl') 
+        input(type='submit', value='Search by Date')
+  else
+    - var datestr = (new Date(report.year, report.month - 1)).toGMTString().split(' ').slice(2,4).join(' ')
+      .info Report Date: #{datestr}
+        .number Report #: #{report.number}
+      .invoice-header
+        .number Invoice Number
+        .lastname Last Name
+        .firstname First Name
+        .amount Amount
+        .tax Sales Tax
+      - var totalamount = 0, totaltax = 0;
+      for invoice in report.invoices
+        - totalamount += invoice.amount;
+        - totaltax += invoice.tax;
+        mixin invoice(invoice, false, false)
+      .summary
+        .total Total
+        .amount #{totalamount.toFixed(2)}
+        .tax #{totaltax.toFixed(2)}
+      .printlink
+        a(href='/report/#{report.number}/print') Printer Friendly Version

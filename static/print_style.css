@@ -1,0 +1,42 @@
+.invoice-header { 
+  margin-top: .5in;
+  font-weight: bold; 
+  padding-bottom: .25in;
+}
+.invoice > div, .invoice-header > div {
+  width: 20%; 
+  display: inline-block;
+}
+.invoice { 
+  margin-top: .1in
+}
+.amount, .tax { 
+  text-align: right;
+}
+.printview { 
+  width: 8in; 
+  position: relative; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+.info { 
+  padding-top: .25in;
+}
+.info .number { 
+  float:right;
+}
+.summary { 
+  border-top: thin black solid; 
+  padding-top: .25in; 
+  margin-top: .25in;
+}
+.summary .total { 
+  text-align: right; 
+  font-weight: bold; 
+  width: 60%; 
+  display: inline-block;
+}
+.summary .amount, .summary .tax { 
+  width: 20%; 
+  display: inline-block;
+}

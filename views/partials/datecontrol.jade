@@ -1,5 +1,9 @@
-script(src='/datecontrol.js')
-label Month:
-select(name='month')#monthctl
-label Year:
-select(name='year')#yearctl
+append scripts
+  script(src='/datecontrol.js')
+mixin datecontrol(month_id, year_id)
+  label Month:
+  select(name='month', id='#{month_id}')
+  label Year:
+  select(name='year', id='#{year_id}')
+  script
+    $(document).ready(function () { datecontrol_populate('#{month_id}', '#{year_id}'); });

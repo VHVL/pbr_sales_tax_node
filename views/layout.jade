@@ -2,8 +2,9 @@
 html
   head
     link(rel='stylesheet', type='text/css', href='/style.css')
-    title PBR Sales Sax
-    script(src='/jquery-1.7.1.min.js')
+    title PBR Sales Tax
+    block scripts
+      script(src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
   body
     #container
       #header
@@ -25,6 +26,6 @@ html
                 ul
                   each info in flash.info
                     li info
-          != body
+          block content
       #footer
         include partials/footer
