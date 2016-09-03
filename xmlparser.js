@@ -106,6 +106,7 @@ module.exports = function (req, res) {
           invoice.Tax += convertInteger(invoiceLine.Tax, 0);
         }
       }
+      invoice && invoiceData.push(invoice); // Save the last invoice in the file
       async.forEach(invoiceData, savefunc, function (err) {
         if (err) {
           req.flash('error', 'There was an error saving the invoices.  Error: ' + err);
