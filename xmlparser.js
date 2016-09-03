@@ -1,4 +1,3 @@
-var util = require('util');
 var fs = require('fs');
 var xml2js = require('xml2js');
 var async = require('async');
@@ -14,8 +13,7 @@ function saveinvoice (invoices) {
     InvModel.findOne({
       number: +invoice.Invoice
     }, function (err, doc) {
-      var created = false,
-        entry;
+      var created = false;
       if (err) {
         throw err;
       }
@@ -26,9 +24,9 @@ function saveinvoice (invoices) {
       doc.number = +invoice.Invoice;
       doc.lastName = invoice.LastName;
       doc.firstName = invoice.FirstName;
-      doc.amount = +invoice.Amount;
-      doc.tax = +invoice.Tax;
-      doc.custno = +invoice.CustNo;
+      doc.amount = invoice.Amount;
+      doc.tax = invoice.Tax;
+      doc.custno = invoice.CustNo;
 
       doc.save(function (err) {
         if (err) {
@@ -81,26 +79,33 @@ module.exports = function (req, res) {
       return done();
     }
     parser.parseString(data, function (err, result) {
-      var invoice, entry, idx, invoiceData = [];
+      var invoiceData = [];
       if (err) {
         req.flash('error', 'There was an issue parsing the file.  Error: ' + err);
         return done();
       }
       // Invoices can have multiple entries, so only get the last one.
-      last = {};
-      for (idx in result.SalesTaxReportPreview) {
-        invoice = result.SalesTaxReportPreview[idx];
-        if (last.Invoice && last.Invoice !== invoice.Invoice) {
-          invoiceData.push(last);
+      var invoice;
+      for (var idx in result.NewDataSet.SalesTaxReportPreview) {
+        var invoiceLine = result.NewDataSet.SalesTaxReportPreview[idx];
+        for (var prop in invoiceLine) {
+          if (invoiceLine.hasOwnProperty(prop)) {
+            invoiceLine[prop] = invoiceLine[prop][0];
+          }
         }
-        last = {
-          Invoice: invoice.Invoice,
-          FirstName: invoice.FirstName,
-          LastName: invoice.LastName,
-          CustNo: invoice.CustNo,
-          Amount: invoice.Amount,
-          Tax: invoice.Tax
-        };
+
+        invoiceLine.Invoice = convertInteger(invoiceLine.Invoice, null);
+        invoiceLine.Amount = convertInteger(invoiceLine.Amount, 0);
+        invoiceLine.Tax = convertInteger(invoiceLine.Tax, 0);
+
+        if (!invoice || invoice.Invoice !== invoiceLine.Invoice) { // New invoice, save the old one
+          invoice && invoiceData.push(invoice);
+          invoice = invoiceLine;
+          invoice.CustNo = convertInteger(invoice.CustNo, null);
+        } else { // Total up the lines of the invoice
+          invoice.Amount += convertInteger(invoiceLine.Amount, 0);
+          invoice.Tax += convertInteger(invoiceLine.Tax, 0);
+        }
       }
       async.forEach(invoiceData, savefunc, function (err) {
         if (err) {
@@ -111,3 +116,8 @@ module.exports = function (req, res) {
     });
   });
 };
+
+function convertInteger (value, defaultValue) {
+  if (isNaN(+value)) return defaultValue;
+  return +value;
+}
