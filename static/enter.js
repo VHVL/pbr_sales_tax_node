@@ -71,7 +71,7 @@ function submitForm () {
   });
 
   // Create the report
-  $.post('/enter/post', {
+  $.post('/enter', {
     month: $('#monthctl').val(),
     year: $('#yearctl').val(),
     invoices: invoices
