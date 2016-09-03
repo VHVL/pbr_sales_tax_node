@@ -11,35 +11,33 @@ var enterjs = require('./enter.js');
 var flash = require('express-flash');
 var ReportModel = require('./database/reports');
 
-app.configure(function() {
-  app.use(express.methodOverride());
-  app.use(express.bodyParser({
-    uploadDir: __dirname + '/tmp'
-  }));
-  app.use(express.query());
-  app.use(express.cookieParser());
-  app.use(express.session({
-    secret: 'pbr secret info'
-  }));
-  app.use(flash());
-  app.use(app.router);
-});
+app.use(express.methodOverride());
+app.use(express.bodyParser({
+  uploadDir: __dirname + '/tmp'
+}));
+app.use(express.query());
+app.use(express.cookieParser());
+app.use(express.session({
+  secret: 'pbr secret info'
+}));
+app.use(flash());
+app.use(app.router);
 
-app.configure('development', function () {
+if (app.get('env') === 'development') {
   app.use(express.static(__dirname + '/bower_components'))
   app.use(express.static(__dirname + '/static'));
   app.use(express.errorHandler({
     dumpExceptions: true,
     showStack: true
   }));
-});
+}
 
-app.configure('production', function() {
+if (app.get('env') === 'production') {
   var oneYear = 3157600000;
   app.use(express.static(__dirname + '/bower_components', { maxAge: oneYear }));
   app.use(express.static(__dirname + '/static', { maxAge: oneYear }));
   app.use(express.errorHandler({dumpExceptions: false, showStack: false}));
-});
+}
 
 app.set('views',__dirname + '/views');
 app.set('view engine', 'pug');
