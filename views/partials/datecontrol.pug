@@ -2,8 +2,8 @@ append scripts
   script(src='/datecontrol.js')
 mixin datecontrol(month_id, year_id)
   label Month:
-  select(name='month', id='#{month_id}')
+  select(name='month', id=month_id)
   label Year:
-  select(name='year', id='#{year_id}')
+  select(name='year', id=year_id)
   script.
     $(document).ready(function () { datecontrol_populate('#{month_id}', '#{year_id}'); });
