@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var util = require('util');
 var path = require('path');
 var xmlparser = require('./xmlparser');
 var enterjs = require('./enter.js');
@@ -28,9 +27,7 @@ if (app.get('env') === 'development') {
     dumpExceptions: true,
     showStack: true
   }));
-}
-
-if (app.get('env') === 'production') {
+} else {
   var oneYear = 3157600000;
   app.use(express.static(path.join(__dirname, '/bower_components', { maxAge: oneYear })));
   app.use(express.static(path.join(__dirname, '/static', { maxAge: oneYear })));
