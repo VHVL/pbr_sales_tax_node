@@ -29,8 +29,8 @@ if (app.get('env') === 'development') {
   }));
 } else {
   var oneYear = 3157600000;
-  app.use(express.static(path.join(__dirname, '/bower_components', { maxAge: oneYear })));
-  app.use(express.static(path.join(__dirname, '/static', { maxAge: oneYear })));
+  app.use(express.static(path.join(__dirname, '/bower_components'), { maxAge: oneYear }));
+  app.use(express.static(path.join(__dirname, '/static'), { maxAge: oneYear }));
   app.use(errorHandler({
     dumpExceptions: false,
     showStack: false
