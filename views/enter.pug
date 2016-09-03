@@ -11,7 +11,7 @@ block content
     paid in the system.
   form(action='post')
     p
-      mixin datecontrol('monthctl', 'yearctl')
+      +datecontrol('monthctl', 'yearctl')
     p
       label Invoice Number:
       input(type='text', name='invno')#invno

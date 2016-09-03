@@ -1,6 +1,6 @@
 extends layout
 include partials/invoice
-include partails/datecontrol
+include partials/datecontrol
 
 block content
   if typeof report === 'undefined'
@@ -11,7 +11,7 @@ block content
         input(type='submit', value='Search by Number')
       p
         label Report Date: 
-          mixin datecontrol('monthctl', 'yearctl') 
+          +datecontrol('monthctl', 'yearctl') 
         input(type='submit', value='Search by Date')
   else
     - var datestr = (new Date(report.year, report.month - 1)).toGMTString().split(' ').slice(2,4).join(' ')
@@ -27,7 +27,7 @@ block content
       for invoice in report.invoices
         - totalamount += invoice.amount;
         - totaltax += invoice.tax;
-        mixin invoice(invoice, false, false)
+        +invoice(invoice, false, false)
       .summary
         .total Total
         .amount #{totalamount.toFixed(2)}

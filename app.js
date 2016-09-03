@@ -48,6 +48,11 @@ app.route('/')
     res.render('index');
   });
 
+app.route('/:page/help')
+.get(function (req, res) {
+  res.render(req.params.page + '/help');
+});
+
 app.route('/enter')
   .get(function (req, res) {
     res.render('enter');
@@ -103,11 +108,6 @@ app.route('/test')
     res.render('index', {
       flash: req.flash()
     });
-  });
-
-app.route('/:page/help')
-  .get(function (req, res) {
-    res.render(req.params.page + '/help');
   });
 
 module.exports = app;
