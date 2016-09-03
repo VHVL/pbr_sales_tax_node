@@ -3,9 +3,13 @@
   "version": "0.0.0",
   "description": "This app is a Node.js server, used with the ESC Service Program, in order to do sales tax on an acrual basis.  Work in progress.",
   "main": "app.js",
+  "engines": {
+    "node": "4.5.0"
+  },
   "dependencies": {
     "async": "~2.0.1",
     "body-parser": "^1.15.2",
+    "bower": "^1.7.9",
     "debug": "^2.2.0",
     "errorhandler": "^1.4.3",
     "express": "~4.14.0",
