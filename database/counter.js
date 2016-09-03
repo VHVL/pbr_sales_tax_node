@@ -11,7 +11,7 @@ CounterSchema.statics.increment = function (database, callback) {
       if (err)
         callback(err);
       else
-        callback(null, result.count);
+        callback(null, result.value.count);
     });
 };
 
