@@ -1,7 +1,7 @@
-function datecontrol_populate(month_id, year_id) {
+function datecontrol_populate (month_id, year_id) {
   var now, thismonth, thisyear, monthctl, tmp, i, yearctl, months;
-  months = ["January", "February", "March", "April", "May", "June", "July",
-    "August", "September", "November", "December"];
+  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+    'August', 'September', 'November', 'December'];
   now = new Date();
   thismonth = now.getMonth();
   thisyear = now.getFullYear();

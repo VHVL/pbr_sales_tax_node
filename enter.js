@@ -4,18 +4,18 @@ var ReportModel = require('./database/reports');
 var util = require('util');
 var async = require('async');
 
-module.exports.getdata = function(req, res) {
+module.exports.getdata = function (req, res) {
   var invno = req.query.invno;
   InvModel.findOne({
     number: invno
-  }, function(err, doc) {
+  }, function (err, doc) {
     if (err) {
       throw err;
     }
     if (doc) {
       res.render('partials/enter/good', {
         invoice: doc
-      }, function(err, content) {
+      }, function (err, content) {
         res.json({
           status: 1,
           html: content
@@ -26,7 +26,7 @@ module.exports.getdata = function(req, res) {
         invoice: {
           number: invno
         }
-      }, function(err, content) {
+      }, function (err, content) {
         res.json({
           status: 0,
           html: content
@@ -36,7 +36,7 @@ module.exports.getdata = function(req, res) {
   });
 };
 
-module.exports.submit = function(req, res) {
+module.exports.submit = function (req, res) {
   var idx, issues = [], month = +req.body.month,
     year = +req.body.year, report = new ReportModel();
 
@@ -59,12 +59,12 @@ module.exports.submit = function(req, res) {
   });
 };
 
-function addToReport(report) {
-  return function(invoice, callback) {
+function addToReport (report) {
+  return function (invoice, callback) {
     console.log(invoice);
     InvModel.findOne({
       number: invoice.number
-    }, function(err, inv) {
+    }, function (err, inv) {
       if (!inv) {
         console.log('creating invoice');
         inv = new InvModel();

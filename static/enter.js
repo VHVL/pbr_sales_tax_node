@@ -1,20 +1,20 @@
 // Client side functionality for enter invoice page
 
-function setErrors(issues) {
+function setErrors (issues) {
   if ($('#error').length === 0) {
     $('#text').append($('<div id="error"></div>'));
   }
   $('#error').html('<ul></ul>');
-  $.each(problems, function(idx, issue) {
+  $.each(problems, function (idx, issue) {
     $('#error ul').append($('<li>' + issue + '</li>'));
   });
 }
 
-function submitForm() {
+function submitForm () {
   var invoices = [],
     problems = [];
   // Validate the data that was entered
-  $('#issues .invoice').each(function() {
+  $('#issues .invoice').each(function () {
     var $this = $(this),
       invoice = {
         number: $this.children('.number').text(),
@@ -24,7 +24,7 @@ function submitForm() {
         tax: +$this.children('.tax input').val()
       };
     if (invoice.lastName === '') {
-      problems.push("Invoice " + invoice.number + ' has no last name.');
+      problems.push('Invoice ' + invoice.number + ' has no last name.');
     }
     if (invoice.amount === 0 || isNaN(invoice.amount) || invoice.amount * 100 % 1 !== 0) {
       problems.push('Invoice ' + invoice.number + ' is missing an amount, or has an invalid amount.');
@@ -39,7 +39,7 @@ function submitForm() {
     return false;
   }
   // Add the good invoices as well
-  $('#good .invoice .number').each(function() {
+  $('#good .invoice .number').each(function () {
     invoices.push({
       number: $(this).text()
     });
@@ -50,7 +50,7 @@ function submitForm() {
     month: $('#monthctl').val(),
     year: $('#yearctl').val(),
     invoices: invoices
-  }, function(data) {
+  }, function (data) {
     if (data.issues.length !== 0) {
       setErrors(data.issues);
       return;
@@ -59,36 +59,36 @@ function submitForm() {
   });
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
   var input, addinv, submit;
 
   input = $('#invno');
   addinv = $('#btn_addinvoice');
   submit = $('#btn_submit');
-  input.on('keypress', function(event) {
+  input.on('keypress', function (event) {
     if (event.keyCode === 13) {
       event.preventDefault();
       $('#btn_addinvoice').click();
     }
   });
-  $('#btn_addinvoice').on('click', function() {
+  $('#btn_addinvoice').on('click', function () {
     $.getJSON('/enter/post', {
       invno: input.val()
-    }, function(data) {
+    }, function (data) {
       if (data.status === 1) {
         $('#good').append($(data.html));
       } else {
         $('#issues').append($(data.html));
       }
-    }).error(function(obj, text, err) {
+    }).error(function (obj, text, err) {
       alert(err);
     });
-    input.val("");
+    input.val('');
   });
 
   $('#btn_submit').on('click', submitForm);
 
-  $('#invoices').on('click', '.remove-button', function(event) {
+  $('#invoices').on('click', '.remove-button', function (event) {
     $(this).parents('.invoice').remove();
   });
 });

@@ -25,7 +25,7 @@ app.use(flash());
 app.use(app.router);
 
 if (app.get('env') === 'development') {
-  app.use(express.static(__dirname + '/bower_components'))
+  app.use(express.static(__dirname + '/bower_components'));
   app.use(express.static(__dirname + '/static'));
   app.use(express.errorHandler({
     dumpExceptions: true,
@@ -40,34 +40,34 @@ if (app.get('env') === 'production') {
   app.use(express.errorHandler({dumpExceptions: false, showStack: false}));
 }
 
-app.set('views',__dirname + '/views');
+app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.render('index');
 });
 
-app.get('/enter', function(req, res) {
+app.get('/enter', function (req, res) {
   res.render('enter');
 });
 
-app.get('/enter/post', function(req, res) {
+app.get('/enter/post', function (req, res) {
   return enterjs.getdata(req, res);
 });
 
-app.post('/enter/post', function(req, res) {
+app.post('/enter/post', function (req, res) {
   return enterjs.submit(req, res);
 });
 
-app.get('/upload', function(req, res) {
+app.get('/upload', function (req, res) {
   res.render('upload');
 });
 
-app.post('/upload/post', function(req, res) {
+app.post('/upload/post', function (req, res) {
   xmlparser(req, res);
 });
 
-app.get('/query', function(req, res) {
+app.get('/query', function (req, res) {
   res.render('query');
 });
 
@@ -75,18 +75,18 @@ app.get('/report', function (req, res) {
   res.render('report');
 });
 
-app.get('/report/:number/:op(print)?', function(req, res) {
-  ReportModel.findOne({number: req.params.number}).populate('invoices').exec(function(err, data) {
+app.get('/report/:number/:op(print)?', function (req, res) {
+  ReportModel.findOne({number: req.params.number}).populate('invoices').exec(function (err, data) {
     if (err) { throw err; }
     res.render(typeof req.params.op === 'undefined' ? 'report' : 'report/' + req.params.op, {report: data});
   });
 });
 
-app.get('/users', function(req, res) {
+app.get('/users', function (req, res) {
   res.render('users');
 });
 
-app.get('/test', function(req, res) {
+app.get('/test', function (req, res) {
   req.flash('error', 'error 1');
   req.flash('error', 'error 2');
   req.flash('info', 'info 1');
@@ -96,7 +96,7 @@ app.get('/test', function(req, res) {
   });
 });
 
-app.get('/:page/help', function(req, res) {
+app.get('/:page/help', function (req, res) {
   res.render(req.params.page + '/help');
 });
 
