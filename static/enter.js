@@ -1,28 +1,53 @@
 // Client side functionality for enter invoice page
 
-function setErrors (issues) {
-  if ($('#error').length === 0) {
-    $('#text').append($('<div id="error"></div>'));
-  }
-  $('#error').html('<ul></ul>');
-  $.each(problems, function (idx, issue) {
-    $('#error ul').append($('<li>' + issue + '</li>'));
+$(document).ready(function () {
+  var $input = $('#invno');
+  var $addinv = $('#btn_addinvoice');
+  var $submit = $('#btn_submit');
+
+  $input.on('keypress', function (event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      $addinv.click();
+    }
   });
-}
+
+  $addinv.on('click', function () {
+    if ($input.val() === '') return;
+
+    $.getJSON('/enter/' + $input.val(), function (data) {
+      if (data.status === 1) {
+        $('#good').append($(data.html));
+      } else {
+        $('#issues').append($(data.html));
+      }
+    }).fail(function (obj, text, err) {
+      alert(err);
+    });
+    
+    $input.val('');
+  });
+
+  $submit.on('click', submitForm);
+
+  $('#invoices').on('click', '.remove-button', function (event) {
+    $(this).parents('.invoice').remove();
+  });
+});
 
 function submitForm () {
-  var invoices = [],
-    problems = [];
+  var invoices = [];
+  var problems = [];
   // Validate the data that was entered
   $('#issues .invoice').each(function () {
-    var $this = $(this),
-      invoice = {
-        number: $this.children('.number').text(),
-        lastName: $this.children('.lastname input').val(),
-        firstName: $this.children('.firstname input').val(),
-        amount: +$this.children('.amount input').val(),
-        tax: +$this.children('.tax input').val()
-      };
+    var $this = $(this);
+    var invoice = {
+      number: $this.children('.number').text(),
+      lastName: $this.children('.lastname input').val(),
+      firstName: $this.children('.firstname input').val(),
+      amount: +$this.children('.amount input').val(),
+      tax: +$this.children('.tax input').val()
+    };
     if (invoice.lastName === '') {
       problems.push('Invoice ' + invoice.number + ' has no last name.');
     }
@@ -59,36 +84,12 @@ function submitForm () {
   });
 }
 
-$(document).ready(function () {
-  var input, addinv, submit;
-
-  input = $('#invno');
-  addinv = $('#btn_addinvoice');
-  submit = $('#btn_submit');
-  input.on('keypress', function (event) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-      $('#btn_addinvoice').click();
-    }
+function setErrors (problems) {
+  if ($('#error').length === 0) {
+    $('#text').append($('<div id="error"></div>'));
+  }
+  $('#error').html('<ul></ul>');
+  $.each(problems, function (idx, issue) {
+    $('#error ul').append($('<li>' + issue + '</li>'));
   });
-  $('#btn_addinvoice').on('click', function () {
-    $.getJSON('/enter/post', {
-      invno: input.val()
-    }, function (data) {
-      if (data.status === 1) {
-        $('#good').append($(data.html));
-      } else {
-        $('#issues').append($(data.html));
-      }
-    }).error(function (obj, text, err) {
-      alert(err);
-    });
-    input.val('');
-  });
-
-  $('#btn_submit').on('click', submitForm);
-
-  $('#invoices').on('click', '.remove-button', function (event) {
-    $(this).parents('.invoice').remove();
-  });
-});
+}

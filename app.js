@@ -53,15 +53,16 @@ app.route('/:page/help')
 app.route('/enter')
   .get(function (req, res) {
     res.render('enter');
-  });
-
-app.route('enter/post')
-  .get(function (req, res) {
-    return enterjs.getdata(req, res);
   })
   .post(function (req, res) {
     return enterjs.submit(req, res);
   });
+
+app.route('/enter/:id')
+  .get(function (req, res) {
+    return enterjs.getdata(req, res);
+  })
+  ;
 
 app.route('/upload')
   .get(function (req, res) {

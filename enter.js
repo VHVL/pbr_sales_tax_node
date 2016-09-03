@@ -1,11 +1,10 @@
 // Server side functionality for enter invoices page
 var InvModel = require('./database/invoices');
 var ReportModel = require('./database/reports');
-var util = require('util');
 var async = require('async');
 
 module.exports.getdata = function (req, res) {
-  var invno = req.query.invno;
+  var invno = req.params.id;
   InvModel.findOne({
     number: invno
   }, function (err, doc) {
