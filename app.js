@@ -9,7 +9,7 @@ var ReportModel = require('./database/reports');
 
 var bodyParser = require('body-parser');
 var multer = require('multer');
-var upload = multer({dest: 'tmp/'});
+var upload = multer({dest: path.join(__dirname, 'tmp/')});
 var session = require('express-session');
 var errorHandler = require('errorhandler');
 
@@ -70,7 +70,7 @@ app.route('/upload')
   .get(function (req, res) {
     res.render('upload');
   })
-  .post(function (req, res) {
+  .post(upload.single('xmlfile'), function (req, res) {
     xmlparser(req, res);
   });
 

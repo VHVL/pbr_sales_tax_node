@@ -64,7 +64,7 @@ function cleanup (req, res, invoices, file) {
 module.exports = function (req, res) {
   var parser, self, invoices, file, savefunc, done;
   self = this;
-  file = req.files.xmlfile.path;
+  file = req.file.path;
   parser = new xml2js.Parser({
     emptyTag: ''
   });
