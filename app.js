@@ -18,17 +18,17 @@ app.configure(function () {
 });
 
 app.configure('development', function () {
+  app.use(express.static(__dirname + '/bower_components'))
   app.use(express.static(__dirname + '/static'));
   app.use(express.errorHandler({dumpExceptions: true, showStack: true}));
 });
 
 app.configure('production', function () {
   var oneYear = 3157600000;
+  app.use(express.static(__dirname + '/bower_components', { maxAge: oneYear }));
   app.use(express.static(__dirname + '/static', { maxAge: oneYear }));
   app.use(express.errorHandler({dumpExceptions: false, showStack: false}));
 });
-
-app
 
 app.set('views',__dirname + '/views');
 app.set('view engine', 'pug');
