@@ -76,7 +76,7 @@ function submitForm () {
     year: $('#yearctl').val(),
     invoices: invoices
   }, function (data) {
-    if (data.issues.length !== 0) {
+    if (data.issues && data.issues.length !== 0) {
       setErrors(data.issues);
       return;
     }
