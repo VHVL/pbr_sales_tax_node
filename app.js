@@ -55,7 +55,7 @@ app.route('/enter')
   .get(function (req, res) {
     res.render('enter');
   })
-  .post(function (req, res) {
+  .post(bodyParser.urlencoded(), function (req, res) {
     return enterjs.submit(req, res);
   });
 

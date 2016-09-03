@@ -42,11 +42,11 @@ function submitForm () {
   $('#issues .invoice').each(function () {
     var $this = $(this);
     var invoice = {
-      number: $this.children('.number').text(),
-      lastName: $this.children('.lastname input').val(),
-      firstName: $this.children('.firstname input').val(),
-      amount: +$this.children('.amount input').val(),
-      tax: +$this.children('.tax input').val()
+      number: $this.find('.number').text(),
+      lastName: $this.find('.lastname input').val(),
+      firstName: $this.find('.firstname input').val(),
+      amount: +$this.find('.amount input').val(),
+      tax: +$this.find('.tax input').val()
     };
     if (invoice.lastName === '') {
       problems.push('Invoice ' + invoice.number + ' has no last name.');
