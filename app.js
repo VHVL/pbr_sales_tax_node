@@ -11,9 +11,11 @@ var enterjs = require('./enter.js');
 var flash = require('express-flash');
 var ReportModel = require('./database/reports');
 
-app.use(express.bodyParser({
-  uploadDir: __dirname + '/tmp'
-}));
+var bodyParser = require('body-parser');
+var multer = require('multer');
+
+var upload = multer({dest: 'tmp/'});
+
 app.use(express.query());
 app.use(express.cookieParser());
 app.use(express.session({
