@@ -11,7 +11,6 @@ var enterjs = require('./enter.js');
 var flash = require('express-flash');
 var ReportModel = require('./database/reports');
 
-app.use(express.methodOverride());
 app.use(express.bodyParser({
   uploadDir: __dirname + '/tmp'
 }));
