@@ -2,7 +2,7 @@ extends layout
 
 block content
   p Generate the report from ESC, save it locally as an XML file, and then upload it here.
-  form(action='/upload/post', method='POST', enctype='multipart/form-data')
+  form(action='/upload', method='POST', enctype='multipart/form-data')
     label File:
     input(type='file', name='xmlfile')
     p

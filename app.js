@@ -69,9 +69,7 @@ app.route('enter/post')
 app.route('/upload')
   .get(function (req, res) {
     res.render('upload');
-  });
-
-app.route('/upload/post')
+  })
   .post(function (req, res) {
     xmlparser(req, res);
   });
