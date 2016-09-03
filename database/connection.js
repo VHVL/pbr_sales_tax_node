@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 module.exports = (function () {
   if (typeof mongoose.connection === 'undefined' || mongoose.connection.readyState !== 1) {
-    mongoose.connect('mongodb://localhost/pbr');
+    mongoose.connect(process.env.MONGODB_URI);
   }
   return mongoose;
 }());
