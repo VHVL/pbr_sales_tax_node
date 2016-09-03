@@ -4,7 +4,7 @@ if (!process.env.NODE_ENV) {
 }
 
 var express = require('express');
-var app = express.createServer();
+var app = express();
 var util = require('util');
 var nowjs = require('now');
 var everyone = nowjs.initialize(app);
@@ -27,6 +27,8 @@ app.configure('production', function () {
   app.use(express.static(__dirname + '/static', { maxAge: oneYear }));
   app.use(express.errorHandler({dumpExceptions: false, showStack: false}));
 });
+
+app
 
 app.set('views',__dirname + '/views');
 app.set('view engine', 'pug');
