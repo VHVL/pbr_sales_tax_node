@@ -4,7 +4,7 @@ if (!process.env.NODE_ENV) {
 }
 
 var express = require('express');
-var app = express.createServer();
+var app = express();
 var util = require('util');
 var xmlparser = require('./xmlparser');
 var enterjs = require('./enter.js');
@@ -25,7 +25,8 @@ app.configure(function() {
   app.use(app.router);
 });
 
-app.configure('development', function() {
+app.configure('development', function () {
+  app.use(express.static(__dirname + '/bower_components'))
   app.use(express.static(__dirname + '/static'));
   app.use(express.errorHandler({
     dumpExceptions: true,
@@ -35,17 +36,13 @@ app.configure('development', function() {
 
 app.configure('production', function() {
   var oneYear = 3157600000;
-  app.use(express.static(__dirname + '/static', {
-    maxAge: oneYear
-  }));
-  app.use(express.errorHandler({
-    dumpExceptions: false,
-    showStack: false
-  }));
+  app.use(express.static(__dirname + '/bower_components', { maxAge: oneYear }));
+  app.use(express.static(__dirname + '/static', { maxAge: oneYear }));
+  app.use(express.errorHandler({dumpExceptions: false, showStack: false}));
 });
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+app.set('views',__dirname + '/views');
+app.set('view engine', 'pug');
 
 app.get('/', function(req, res) {
   res.render('index');

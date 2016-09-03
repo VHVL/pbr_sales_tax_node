@@ -1,0 +1,27 @@
+{
+  "name": "sales_tax",
+  "version": "0.0.0",
+  "description": "This app is a Node.js server, used with the ESC Service Program, in order to do sales tax on an acrual basis.  Work in progress.",
+  "main": "app.js",
+  "dependencies": {
+    "async": "~2.0.1",
+    "express": "~4.14.0",
+    "mongoose": "~4.6.0",
+    "pug": "^2.0.0-beta6",
+    "xml2js": "~0.4.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/baiamc/pbr_sales_tax_node.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/baiamc/pbr_sales_tax_node/issues"
+  }
+}
