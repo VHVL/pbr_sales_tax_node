@@ -16,7 +16,8 @@ app.use(express.query());
 app.use(session({
   resave: false,
   saveUninitialized: false,
-  secret: 'pbr secret info'
+  secret: 'pbr secret info',
+  store: require('./database/mongoStore')
 }));
 app.use(flash());
 
