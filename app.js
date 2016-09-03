@@ -8,7 +8,7 @@ var app = express();
 var util = require('util');
 var xmlparser = require('./xmlparser');
 var enterjs = require('./enter.js');
-var flash = require('connect-flash');
+var flash = require('express-flash');
 var ReportModel = require('./database/reports');
 
 app.configure(function() {
