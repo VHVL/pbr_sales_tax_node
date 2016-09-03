@@ -29,7 +29,7 @@ app.configure('production', function () {
 });
 
 app.set('views',__dirname + '/views');
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 app.get('/', function (req, res) {
   res.render('index');
