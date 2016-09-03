@@ -15,17 +15,17 @@ html
         #sidebar
           include partials/sidebar
         #text
-          if typeof flash !== 'undefined'
-            if typeof flash.error !== 'undefined'
+          if typeof messages !== 'undefined'
+            if typeof messages.error !== 'undefined'
               #error
                 ul
-                  each error in flash.error
-                    li error
-            if typeof flash.error !== 'undefined'
+                  each error in messages.error
+                    li #{error}
+            if typeof messages.info !== 'undefined'
               #info
                 ul
-                  each info in flash.info
-                    li info
+                  each info in messages.info
+                    li #{info}
           block content
       #footer
         include partials/footer

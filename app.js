@@ -103,9 +103,7 @@ app.route('/test')
     req.flash('error', 'error 2');
     req.flash('info', 'info 1');
     req.flash('info', 'info 2');
-    res.render('index', {
-      flash: req.flash()
-    });
+    res.redirect('/');
   });
 
 module.exports = app;
