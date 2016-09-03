@@ -15,6 +15,7 @@ module.exports.getdata = function (req, res) {
       res.render('partials/enter/good', {
         invoice: doc
       }, function (err, content) {
+        if (err) { throw err; }
         res.json({
           status: 1,
           html: content
@@ -26,6 +27,7 @@ module.exports.getdata = function (req, res) {
           number: invno
         }
       }, function (err, content) {
+        if (err) { throw err; }
         res.json({
           status: 0,
           html: content
@@ -36,8 +38,10 @@ module.exports.getdata = function (req, res) {
 };
 
 module.exports.submit = function (req, res) {
-  var idx, issues = [], month = +req.body.month,
-    year = +req.body.year, report = new ReportModel();
+  var issues = [];
+  var month = +req.body.month;
+  var year = +req.body.year;
+  var report = new ReportModel();
 
   if (month % 1 || month < 1 || month > 12) {
     issues.push('Invalid month');
@@ -53,6 +57,7 @@ module.exports.submit = function (req, res) {
   async.forEach(req.body.invoices, addToReport(report), function (err) {
     if (err) { throw err; }
     report.save(function (err) {
+      if (err) { throw err; }
       res.json({report: report.number});
     });
   });
@@ -64,6 +69,7 @@ function addToReport (report) {
     InvModel.findOne({
       number: invoice.number
     }, function (err, inv) {
+      if (err) { throw err; }
       if (!inv) {
         console.log('creating invoice');
         inv = new InvModel();
