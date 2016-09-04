@@ -1,0 +1,14 @@
+include invoice
+
+mixin report(report)
+  - var datestr = (new Date(report.year, report.month - 1)).toGMTString().split(' ').slice(2,4).join(' ')
+  .info Report Date: #{datestr}
+    .number Report #: #{report.number}
+  .invoice-header
+    .number Invoice Number
+    .lastname Last Name
+    .firstname First Name
+    .amount Amount
+    .tax Sales Tax
+  for invoice in report.invoices
+    +invoice(invoice, false, false)

@@ -3,8 +3,8 @@ var app = express();
 var path = require('path');
 var xmlparser = require('./xmlparser');
 var enterjs = require('./enter.js');
+var reportjs = require('./reports.js');
 var flash = require('express-flash');
-var ReportModel = require('./database/reports');
 
 var bodyParser = require('body-parser');
 var multer = require('multer');
@@ -12,7 +12,6 @@ var upload = multer({dest: path.join(__dirname, 'tmp/')});
 var session = require('express-session');
 var errorHandler = require('errorhandler');
 
-app.use(express.query());
 app.use(session({
   resave: false,
   saveUninitialized: false,
@@ -81,14 +80,17 @@ app.route('/query')
 app.route('/report')
   .get(function (req, res) {
     res.render('report');
+  })
+  .post(bodyParser.urlencoded({extended: false}), function (req, res) {
+    if (req.body.numSearch) {
+      return res.redirect('/report/' + req.body.reportNumber);
+    }
+    return res.redirect('/report/' + req.body.month + '-' + req.body.year);
   });
 
 app.route('/report/:number/:op(print)?')
   .get(function (req, res) {
-    ReportModel.findOne({number: req.params.number}).populate('invoices').exec(function (err, data) {
-      if (err) { throw err; }
-      res.render(typeof req.params.op === 'undefined' ? 'report' : 'report/' + req.params.op, {report: data});
-    });
+    reportjs.display(req, res);
   });
 
 app.route('/users')
