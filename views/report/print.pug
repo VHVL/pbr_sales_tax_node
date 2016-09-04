@@ -15,7 +15,7 @@ block content
   for invoice in report.invoices
     - totalamount += invoice.amount;
     - totaltax += invoice.tax;
-    mixin invoice(invoice, false, false)
+    +invoice(invoice, false, false)
   .summary
     .total Total
     .amount #{totalamount.toFixed(2)}
