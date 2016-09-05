@@ -1,0 +1,14 @@
+extends ../print_layout
+include ../partials/invoice
+include ../partials/report
+
+block content
+  for report in reports
+    +report(report)
+  .summary
+    .total Total
+    .amount #{totals.amount.toFixed(2)}
+    .tax #{totals.tax.toFixed(2)}
+
+
+

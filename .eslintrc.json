@@ -1,0 +1,14 @@
+{
+    "extends": "standard",
+    "installedESLint": true,
+    "plugins": [
+        "standard",
+        "promise"
+    ],
+    "env": {
+        "jquery": true
+    },
+    "rules": {
+        "semi": ["error", "always"]
+    }
+}

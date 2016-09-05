@@ -28,9 +28,63 @@ body {padding:50px 100px; margin:0; font-family:Tahoma, Geneva, sans-serif; back
 #text h2 {font-size:19px; font-weight:normal; margin:20px 0 10px 0;}
 #text ol, #text ul {padding:0; margin:8px 0;}
 #text li {margin-left:40px;}
+#error {background-color: #FFB6C1; border: 1px solid #FF0000; margin: 5px;}
+#info {background-color: #AFEEEE; border: 1px solid #20B2AA; margin: 5px;}
+input {margin-right: 10px; margin-left: 10px;}
+select {margin-right: 10px; margin-left: 10px;}
+
 
 #footer {height:40px; color:#FFFFFF; font-size:11px; background-image:url(images/footer_bg.png); clear:both;}
 #footer a {color:#FFFFFF;}
 #footer a:hover {color:#DFDFDF;}
 #footer_left {float:left; padding:13px 0 0 30px;}
 #footer_right {float:right; padding:13px 30px 0 0;}
+
+/* Above is for the site theme, below is site specific */
+
+.invoice > div, .invoice-header > div {
+  width:18%;
+  display: inline-block;
+}
+.invoice .remove {
+  width:10%;
+}
+.invoice-header {
+  font-weight: bold;
+  margin-top: 20px;
+}
+.invoice input {
+  margin-left: 0;
+  width: 80%;
+}
+.amount, .tax {
+  text-align: right;
+}
+.amount input, .tax input {
+  margin-left: 20%;
+  text-align: right;
+}
+.remove input {
+  margin-left: 15px;
+}
+.info { 
+  padding-top: 10px;
+}
+.info .number { 
+  float:right;
+}
+.summary { 
+  border-top: thin black solid; 
+  padding-top: 10px; 
+  margin-top:  10px;
+}
+.summary .total { 
+  text-align: right; 
+  font-weight: bold; 
+  width: 54%; 
+  display: inline-block;
+}
+.summary .amount, .summary .tax { 
+  width: 18%; 
+  display: inline-block;
+}

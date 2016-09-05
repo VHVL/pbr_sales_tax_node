@@ -1,45 +1,43 @@
-var util = require('util');
 var fs = require('fs');
 var xml2js = require('xml2js');
-var mongoose = require('mongoose');
-var sio = require('socket.io');
 var async = require('async');
 
 // Create mongoose model
-var InvModel = mongoose.model('Invoice', new mongoose.Schema({
-    number: {type: Number, unique: true},
-    lastName: String,
-    firstName: String,
-    amount: Number,
-    tax: Number,
-    custno: Number
-  }));
+var InvModel = require('./database/invoices');
 
 // Stores an invoice in the database.  Either inserts or updates, depending
-// on which needs to be done.  Returns a function, to work with async, and provide
-// the socket to emit too
-function saveinvoice (self) {
+// on which needs to be done.  Returns a function, to work with async
+
+function saveinvoice (invoices) {
   return function (invoice, callback) {
-    InvModel.findOne({number: +invoice.Invoice}, function (err, doc) {
-      var created;
-      if (err) { throw err; }
+    InvModel.findOne({
+      number: +invoice.Invoice
+    }, function (err, doc) {
+      var created = false;
+      if (err) {
+        throw err;
+      }
       if (!doc) {
         doc = new InvModel();
         created = true;
       }
-      doc.number = invoice.Invoice;
+      doc.number = +invoice.Invoice;
       doc.lastName = invoice.LastName;
       doc.firstName = invoice.FirstName;
       doc.amount = invoice.Amount;
       doc.tax = invoice.Tax;
-      doc.custno = +invoice.CustNo;
+      doc.custno = invoice.CustNo;
 
       doc.save(function (err) {
         if (err) {
-          self.now.addInvoice('<b>Error ' + (created ? 'creating' : 'updating') +
-            ' invoice number ' + (+invoice.Invoice) + '.  Msg: ' + err + '</b>');
+          invoices.error[+invoice.Invoice] = {
+            created: created,
+            error: err
+          };
         } else {
-          self.now.addInvoice((created ? 'Created' : 'Updated') + ' invoice number ' + (+invoice.Invoice));
+          invoices.good[+invoice.Invoice] = {
+            created: created
+          };
         }
         callback();
       });
@@ -47,34 +45,79 @@ function saveinvoice (self) {
   };
 }
 
-module.exports = function (file) {
-  var parser, self;
-  self = this;
-  console.log(util.inspect(this));
-  console.log('here');
-  parser = new xml2js.Parser({emptyTag: ''});
-  self.now.addStatus('Parsing file.');
-  mongoose.connect('mongodb://localhost/pbr');
+// Use closure to avoid repeating parameters in code
+
+function cleanup (req, res, invoices, file) {
+  return function () {
+    res.render('./upload/post', {
+      invoices: invoices,
+      flash: req.flash()
+    });
+    fs.unlink(file, function (err) {
+      if (err) { throw err; }
+    });
+  };
+}
+
+module.exports = function (req, res) {
+  var parser, invoices, file, savefunc, done;
+  file = req.file.path;
+  parser = new xml2js.Parser({
+    emptyTag: ''
+  });
+  invoices = {};
+  invoices.good = {};
+  invoices.error = {};
+  savefunc = saveinvoice(invoices);
+
+  done = cleanup(req, res, invoices, file);
 
   fs.readFile(file, function (err, data) {
     if (err) {
-      return self.now.addStatus('There was an issue opening the file.  Error: ' + err);
+      req.flash('error', 'There was an error while reading the file.  Error: ' + err);
+      return done();
     }
-    parser.parseString(data, function (err, result){
+    parser.parseString(data, function (err, result) {
+      var invoiceData = [];
       if (err) {
-        return self.now.addStatus('There was an issue parsing the file.  Error: ' + err);
+        req.flash('error', 'There was an issue parsing the file.  Error: ' + err);
+        return done();
       }
-      self.now.addStatus('Reading invoices.');
-
-      async.forEach(result.SalesTaxReportPreview, saveinvoice(self), function (err) {
-        if (err) {
-          self.now.addStatus('There was an error saving the invoices.  Error: ' + err);
-        } else {
-          self.now.addStatus('Finished uploading invoices.');
+      // Invoices can have multiple entries, so only get the last one.
+      var invoice;
+      for (var idx in result.NewDataSet.SalesTaxReportPreview) {
+        var invoiceLine = result.NewDataSet.SalesTaxReportPreview[idx];
+        for (var prop in invoiceLine) {
+          if (invoiceLine.hasOwnProperty(prop)) {
+            invoiceLine[prop] = invoiceLine[prop][0];
+          }
         }
-        fs.unlink(file);
-        mongoose.connection.close();
+
+        invoiceLine.Invoice = convertInteger(invoiceLine.Invoice, null);
+        invoiceLine.Amount = convertInteger(invoiceLine.Amount, 0);
+        invoiceLine.Tax = convertInteger(invoiceLine.Tax, 0);
+
+        if (!invoice || invoice.Invoice !== invoiceLine.Invoice) { // New invoice, save the old one
+          invoice && invoiceData.push(invoice);
+          invoice = invoiceLine;
+          invoice.CustNo = convertInteger(invoice.CustNo, null);
+        } else { // Total up the lines of the invoice
+          invoice.Amount += convertInteger(invoiceLine.Amount, 0);
+          invoice.Tax += convertInteger(invoiceLine.Tax, 0);
+        }
+      }
+      invoice && invoiceData.push(invoice); // Save the last invoice in the file
+      async.forEach(invoiceData, savefunc, function (err) {
+        if (err) {
+          req.flash('error', 'There was an error saving the invoices.  Error: ' + err);
+        }
+        return done();
       });
     });
   });
 };
+
+function convertInteger (value, defaultValue) {
+  if (isNaN(+value)) return defaultValue;
+  return +value;
+}

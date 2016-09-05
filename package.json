@@ -3,16 +3,36 @@
   "version": "0.0.0",
   "description": "This app is a Node.js server, used with the ESC Service Program, in order to do sales tax on an acrual basis.  Work in progress.",
   "main": "app.js",
+  "engines": {
+    "node": "4.5.0"
+  },
   "dependencies": {
     "async": "~2.0.1",
+    "body-parser": "^1.15.2",
+    "bower": "^1.7.9",
+    "connect-mongo": "^1.3.2",
+    "debug": "^2.2.0",
+    "errorhandler": "^1.4.3",
     "express": "~4.14.0",
+    "express-flash": "0.0.2",
+    "express-session": "^1.14.1",
     "mongoose": "~4.6.0",
+    "multer": "^1.2.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "pug": "^2.0.0-beta6",
     "xml2js": "~0.4.17"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.4.0",
+    "eslint-config-standard": "^6.0.0",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-standard": "^2.0.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "bower install",
+    "start": "node ./bin/www"
   },
   "repository": {
     "type": "git",

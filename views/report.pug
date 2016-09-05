@@ -1,0 +1,25 @@
+extends layout
+include partials/datecontrol
+include partials/report
+
+block content
+  if typeof reports === 'undefined'
+    form(method='post')
+      div
+        p
+          label Report Number:
+            input(type='text', name='reportNumber', id='report_number')
+          input(type='submit', name='numSearch', value='Search by Number')
+        p
+          label Report Date: 
+            +datecontrol('monthctl', 'yearctl') 
+          input(type='submit', name='dateSearch' value='Search by Date')
+  else
+      for report in reports
+        +report(report)
+      .summary
+        .total Total
+        .amount #{totals.amount.toFixed(2)}
+        .tax #{totals.tax.toFixed(2)}
+      .printlink
+        a(href=path + '/print') Printer Friendly Version

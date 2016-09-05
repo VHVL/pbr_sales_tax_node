@@ -1,9 +1,10 @@
-!!! 5
+doctype html
 html
   head
     link(rel='stylesheet', type='text/css', href='/style.css')
-    title PBR Sales Sax
-    script(src='/jquery-1.7.1.min.js')
+    title PBR Sales Tax
+    block scripts
+      script(src='/jquery/dist/jquery.min.js')
   body
     #container
       #header
@@ -13,6 +14,18 @@ html
       #main
         #sidebar
           include partials/sidebar
-        #text!= body
+        #text
+          if typeof messages !== 'undefined'
+            if typeof messages.error !== 'undefined'
+              #error
+                ul
+                  each error in messages.error
+                    li #{error}
+            if typeof messages.info !== 'undefined'
+              #info
+                ul
+                  each info in messages.info
+                    li #{info}
+          block content
       #footer
         include partials/footer
