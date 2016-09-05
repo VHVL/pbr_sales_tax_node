@@ -4,6 +4,7 @@ $(document).ready(function () {
   var $input = $('#invno');
   var $addinv = $('#btn_addinvoice');
   var $submit = $('#btn_submit');
+  var invoiceLookup = {};
 
   $input.on('keypress', function (event) {
     if (event.keyCode === 13) {
@@ -13,9 +14,15 @@ $(document).ready(function () {
   });
 
   $addinv.on('click', function () {
-    if ($input.val() === '') return;
+    var invoiceNumber = $input.val();
+    if (invoiceNumber === '') return;
 
-    $.getJSON('/enter/' + $input.val(), function (data) {
+    $input.val('');
+    if (invoiceLookup[invoiceNumber]) return;
+
+    invoiceLookup[invoiceNumber] = true;
+
+    $.getJSON('/enter/' + invoiceNumber, function (data) {
       if (data.status === 1) {
         $('#good').append($(data.html));
       } else {
@@ -24,14 +31,14 @@ $(document).ready(function () {
     }).fail(function (obj, text, err) {
       alert(err);
     });
-    
-    $input.val('');
   });
 
   $submit.on('click', submitForm);
 
   $('#invoices').on('click', '.remove-button', function (event) {
-    $(this).parents('.invoice').remove();
+    var $invoice = $(this).parents('.invoice');
+    invoiceLookup[$invoice.find('.number').text()] = false;
+    $invoice.remove();
   });
 });
 
