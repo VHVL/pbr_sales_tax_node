@@ -17,7 +17,7 @@ var errorHandler = require('errorhandler');
 app.use(session({
   resave: false,
   saveUninitialized: false,
-  secret: 'pbr secret info',
+  secret: process.env.SECRET,
   store: require('./database/mongoStore')
 }));
 app.use(flash());
