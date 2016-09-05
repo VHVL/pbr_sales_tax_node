@@ -5,6 +5,8 @@ var xmlparser = require('./xmlparser');
 var enterjs = require('./enter.js');
 var reportjs = require('./reports.js');
 var flash = require('express-flash');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var bodyParser = require('body-parser');
 var multer = require('multer');
@@ -40,21 +42,58 @@ if (app.get('env') === 'development') {
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'pug');
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    if (username !== process.env.USERNAME || password !== process.env.PASSWORD) {
+      return done(null, false, { message: 'Incorrect username or password.' });
+    }
+    return done(null, {username: username});
+  }
+));
+
+passport.serializeUser(function (user, done) {
+  done(null, user.username);
+});
+
+passport.deserializeUser(function (username, done) {
+  done(null, {username: username});
+});
+
+app.use(function (req, res, next) {
+  if (req.path === '/login') return next(null);
+  if (req.user) return next(null);
+  return res.redirect('/login');
+});
+
 app.route('/')
   .get(function (req, res) {
     res.render('index');
   });
 
+app.route('/login')
+  .get(function (req, res) {
+    res.render('login');
+  })
+  .post(
+    bodyParser.urlencoded({extended: false}),
+    passport.authenticate('local', {successRedirect: '/',
+                                    failureRedirect: '/login',
+                                    failureFlash: true})
+  );
+
 app.route('/:page/help')
-.get(function (req, res) {
-  res.render(req.params.page + '/help');
-});
+  .get(function (req, res) {
+    res.render(req.params.page + '/help');
+  });
 
 app.route('/enter')
   .get(function (req, res) {
     res.render('enter');
   })
-  .post(bodyParser.urlencoded({ extended: true }), function (req, res) {
+  .post(bodyParser.urlencoded({extended: true}), function (req, res) {
     return enterjs.submit(req, res);
   });
 
