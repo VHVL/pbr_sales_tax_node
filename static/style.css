@@ -88,3 +88,18 @@ select {margin-right: 10px; margin-left: 10px;}
   width: 18%; 
   display: inline-block;
 }
+
+input, select, label {
+  width: 125px;
+  margin: 5px 10px;
+}
+
+input[type=file] {
+  width: 400px;
+}
+
+label {
+  display: inline-block;
+  font-weight: bold;
+  text-align: right;
+}

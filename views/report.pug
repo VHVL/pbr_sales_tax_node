@@ -6,13 +6,15 @@ block content
   if typeof reports === 'undefined'
     form(method='post')
       div
-        p
-          label Report Number:
-            input(type='text', name='reportNumber', id='report_number')
+        div
+          h3 Report by Numer
+          input(type='text', name='reportNumber', id='report_number')
+        div 
           input(type='submit', name='numSearch', value='Search by Number')
-        p
-          label Report Date: 
-            +datecontrol('monthctl', 'yearctl') 
+        div
+          h3 Report by Date 
+          +datecontrol('monthctl', 'yearctl')
+        div
           input(type='submit', name='dateSearch' value='Search by Date')
   else
       for report in reports
