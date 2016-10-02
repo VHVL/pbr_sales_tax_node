@@ -58,10 +58,10 @@ function submitForm () {
     if (invoice.lastName === '') {
       problems.push('Invoice ' + invoice.number + ' has no last name.');
     }
-    if (invoice.amount === 0 || isNaN(invoice.amount) || invoice.amount * 100 % 1 < 0.0000001) {
+    if (invoice.amount === 0 || isNaN(invoice.amount) || invoice.amount * 100 % 1 > 0.0000001) {
       problems.push('Invoice ' + invoice.number + ' is missing an amount, or has an invalid amount.');
     }
-    if (isNaN(invoice.tax) || invoice.tax * 100 % 1 < 0.0000001) {
+    if (isNaN(invoice.tax) || invoice.tax * 100 % 1 > 0.0000001) {
       problems.push('Invoice ' + invoice.number + ' has an invalid sales tax.');
     }
     invoices.push(invoice);
