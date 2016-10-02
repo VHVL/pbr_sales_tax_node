@@ -7,6 +7,15 @@
   width: 20%; 
   display: inline-block;
 }
+
+.invoice .lastname {
+  width: 25%;
+}
+
+.invoice .firstname {
+  width:15%;
+}
+
 .invoice { 
   margin-top: .1in
 }
