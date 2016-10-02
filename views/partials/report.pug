@@ -8,7 +8,7 @@ mixin report(report)
     .number Invoice Number
     .lastname Last Name
     .firstname First Name
-    .amount Amount
+    .amount Subtotal
     .tax Sales Tax
   for invoice in report.invoices
     +invoice(invoice, false, false)
