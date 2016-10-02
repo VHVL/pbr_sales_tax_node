@@ -9,11 +9,11 @@
 }
 
 .lastname {
-  width: 25%;
+  width: 25% !important;
 }
 
 .firstname {
-  width:15%;
+  width:15% !important;
 }
 
 .invoice { 
