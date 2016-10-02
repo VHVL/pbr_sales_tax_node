@@ -8,11 +8,11 @@
   display: inline-block;
 }
 
-.invoice .lastname {
+.lastname {
   width: 25%;
 }
 
-.invoice .firstname {
+.firstname {
   width:15%;
 }
 
